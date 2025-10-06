@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>哪吒</title>
+  <!-- 引入Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- 引入Font Awesome图标 -->
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <!-- Tailwind配置 -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#4338CA', // 主色调：深蓝紫色
+            secondary: '#0EA5E9', // 辅助色：天蓝色
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      }
+    }
+  </script>
+  <!-- 自定义样式 -->
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .btn-hover {
+        transition: all 0.3s ease;
+      }
+      .btn-hover:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      }
+      .card-gradient {
+        background-image: linear-gradient(135deg, var(--tw-gradient-stops));
+      }
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen font-sans">
+  <!-- 主容器 -->
+  <div class="container mx-auto px-4 py-12 max-w-4xl">
+    <!-- 页面标题 -->
+    <header class="text-center mb-16">
+      <h1 class="text-4xl md:text-5xl font-bold text-primary mb-4">哪吒</h1>
+      <p class="text-gray-600 text-lg">请选择您想要访问的线路</p>
+    </header>
+
+    <!-- 网站选择卡片区域 -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <!-- 内网网站卡片 -->
+      <a href="填入你自己的网址" target="_blank" rel="noopener noreferrer"
+         class="block bg-white rounded-xl overflow-hidden shadow-lg btn-hover border-t-4 border-green-500">
+        <div class="p-8">
+          <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-6">
+            <i class="fa fa-link text-2xl text-green-500"></i>
+          </div>
+          <h2 class="text-2xl font-bold text-gray-800 mb-2">内网</h2>
+          <p class="text-gray-500 mb-4">访问内部网络服务</p>
+          <div class="flex items-center text-sm text-gray-400">
+            <i class="fa fa-globe mr-2"></i>
+            <span>填入你自己的网址</span>
+          </div>
+        </div>
+        <div class="bg-gray-50 px-8 py-4 flex items-center justify-between border-t border-gray-100">
+          <span class="text-sm font-medium text-green-500">内部网络</span>
+          <i class="fa fa-arrow-right text-green-500 transition-transform duration-300 hover:translate-x-1"></i>
+        </div>
+      </a>
+
+      <!-- 外网网站卡片 -->
+      <a href="填入你自己的网址" target="_blank" rel="noopener noreferrer"
+         class="block bg-white rounded-xl overflow-hidden shadow-lg btn-hover border-t-4 border-blue-500">
+        <div class="p-8">
+          <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-6">
+            <i class="fa fa-globe text-2xl text-blue-500"></i>
+          </div>
+          <h2 class="text-2xl font-bold text-gray-800 mb-2">外网</h2>
+          <p class="text-gray-500 mb-4">访问外部网络服务</p>
+          <div class="flex items-center text-sm text-gray-400">
+            <i class="fa fa-globe mr-2"></i>
+            <span>填入你自己的网址</span>
+          </div>
+        </div>
+        <div class="bg-gray-50 px-8 py-4 flex items-center justify-between border-t border-gray-100">
+          <span class="text-sm font-medium text-blue-500">外部网络</span>
+          <i class="fa fa-arrow-right text-blue-500 transition-transform duration-300 hover:translate-x-1"></i>
+        </div>
+      </a>
+    </div>
+
+    <!-- 状态信息区域 -->
+    <div class="mt-16 bg-white rounded-xl p-6 shadow-md">
+      <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+        <i class="fa fa-info-circle text-blue-500 mr-2"></i>
+        连接状态
+      </h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="bg-gray-50 p-4 rounded-lg">
+          <div class="flex justify-between items-center mb-2">
+            <span class="text-gray-600 font-medium">内网连接</span>
+            <span id="lanStatus" class="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-800">检测中</span>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-2">
+            <div id="lanProgress" class="bg-yellow-500 h-2 rounded-full w-0"></div>
+          </div>
+        </div>
+        <div class="bg-gray-50 p-4 rounded-lg">
+          <div class="flex justify-between items-center mb-2">
+            <span class="text-gray-600 font-medium">外网连接</span>
+            <span id="wanStatus" class="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-800">检测中</span>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-2">
+            <div id="wanProgress" class="bg-yellow-500 h-2 rounded-full w-0"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="mt-16 text-center text-gray-500 text-sm">
+      <p>zako别看了下面没了Ciallo～(∠・ω< )⌒☆</p>
+    </footer>
+  </div>
+
+  <!-- JavaScript脚本 -->
+  <script>
+    // 检测网站连接状态
+    document.addEventListener('DOMContentLoaded', function() {
+      // 检测内网连接状态
+      checkConnectionStatus('填入你自己的网址', 'lanStatus', 'lanProgress', '#10B981');
+      // 检测外网连接状态
+      checkConnectionStatus('填入你自己的网址', 'wanStatus', 'wanProgress', '#3B82F6');
+    });
+
+    // 检测网站连接状态的函数
+    function checkConnectionStatus(url, statusId, progressId, color) {
+      const statusElement = document.getElementById(statusId);
+      const progressElement = document.getElementById(progressId);
+      
+      // 模拟进度条动画
+      let progress = 0;
+      const interval = setInterval(() => {
+        progress += 5;
+        progressElement.style.width = `${progress}%`;
+        
+        if (progress >= 100) {
+          clearInterval(interval);
+          // 进度条完成后，检查实际连接状态
+          fetchConnection(url).then(success => {
+            if (success) {
+              statusElement.textContent = '已连接';
+              statusElement.className = 'px-2 py-1 text-xs rounded-full bg-green-100 text-green-800';
+              progressElement.className = `h-2 rounded-full w-full bg-${color.replace('#', '')}`;
+            } else {
+              statusElement.textContent = '连接失败';
+              statusElement.className = 'px-2 py-1 text-xs rounded-full bg-red-100 text-red-800';
+              progressElement.className = 'h-2 rounded-full w-full bg-red-500';
+            }
+          });
+        }
+      }, 50);
+    }
+
+    // 尝试连接到指定URL - 改进版
+    function fetchConnection(url) {
+      return new Promise(resolve => {
+        // 设置最大尝试次数
+        const maxRetries = 2;
+        let attempts = 0;
+        
+        // 尝试连接函数
+        function attemptConnection() {
+          attempts++;
+          const timestamp = Date.now();
+          
+          // 尝试使用fetch API
+          fetch(`${url}/?t=${timestamp}`, {
+            method: 'HEAD', // 只获取头信息，不下载内容
+            mode: 'no-cors', // 允许跨域请求
+            cache: 'no-cache', // 不使用缓存
+            timeout: 5000 // 5秒超时
+          }).then(response => {
+            // 由于使用了no-cors，我们无法检查response.status，但如果能到达这里，说明连接成功
+            resolve(true);
+          }).catch(error => {
+            // 如果失败，尝试加载favicon作为备选方案
+            if (attempts <= maxRetries) {
+              attemptFavicon();
+            } else {
+              resolve(false);
+            }
+          });
+        }
+        
+        // 尝试加载favicon作为备选方案
+        function attemptFavicon() {
+          const img = new Image();
+          const timeout = setTimeout(() => {
+            img.src = '';
+            if (attempts <= maxRetries) {
+              attemptConnection();
+            } else {
+              resolve(false);
+            }
+          }, 3000);
+          
+          img.onload = () => {
+            clearTimeout(timeout);
+            resolve(true);
+          };
+          
+          img.onerror = () => {
+            clearTimeout(timeout);
+            if (attempts <= maxRetries) {
+              attemptConnection();
+            } else {
+              resolve(false);
+            }
+          };
+          
+          const timestamp = Date.now();
+          // 尝试不同的favicon路径
+          const faviconPaths = [`${url}/favicon.ico?t=${timestamp}`, `${url}/favicon.png?t=${timestamp}`];
+          img.src = faviconPaths[attempts - 1] || faviconPaths[0];
+        }
+        
+        // 开始第一次尝试
+        attemptConnection();
+      });
+    }
+
+    // 添加页面加载动画
+    document.addEventListener('DOMContentLoaded', function() {
+      document.body.classList.add('opacity-0');
+      setTimeout(() => {
+        document.body.classList.add('transition-opacity', 'duration-500');
+        document.body.classList.remove('opacity-0');
+      }, 100);
+    });
+  </script>
+</body>
+</html>
